@@ -3,7 +3,7 @@ name: Build Windows EXE
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*' ]
+  tags: [ 'v*' ]
   pull_request:
   workflow_dispatch:
 
@@ -28,15 +28,35 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --name=StandXMakerBot --onefile --console ^
+        pyinstaller --name=StandXMakerBot --onefile --console --log-level=DEBUG ^
           --hidden-import=gradio ^
           --hidden-import=gradio.routes ^
+          --hidden-import=gradio.templates ^
+          --hidden-import=gradio.components ^
+          --hidden-import=gradio.blocks ^
+          --hidden-import=gradio.events ^
+          --hidden-import=gradio.helpers ^
+          --hidden-import=gradio.utils ^
+          --hidden-import=gradio.cli ^
           --hidden-import=websockets ^
+          --hidden-import=websockets.client ^
+          --hidden-import=websockets.server ^
+          --hidden-import=websockets.legacy ^
           --hidden-import=eth_account ^
+          --hidden-import=eth_account.account ^
+          --hidden-import=eth_account.messages ^
+          --hidden-import=eth_account.signers.local ^
           --hidden-import=nacl.signing ^
+          --hidden-import=nacl.encoding ^
+          --hidden-import=nacl.bindings ^
           --hidden-import=httpx ^
+          --hidden-import=httpx._client ^
           --hidden-import=yaml ^
           --hidden-import=plotly ^
+          --hidden-import=plotly.graph_objects ^
+          --collect-all gradio ^
+          --collect-all eth_account ^
+          --collect-all websockets ^
           web_ui.py
 
     - name: Upload EXE
