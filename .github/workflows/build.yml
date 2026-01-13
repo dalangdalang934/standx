@@ -21,36 +21,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller==6.3.0
+        pip install pyinstaller==6.3.0 gradio httpx websockets pynacl eth-account pyyaml python-dotenv plotly
 
-    - name: Install project dependencies
-      run: |
-        pip install gradio httpx websockets pynacl eth-account pyyaml python-dotenv plotly
-
-    - name: Build EXE with PyInstaller (onedir mode)
-      run: |
-        pyinstaller --name=StandXMakerBot --onedir --console --noconfirm ^
-          --hidden-import=gradio ^
-          --hidden-import=gradio.routes ^
-          --hidden-import=gradio.templates ^
-          --hidden-import=gradio.components ^
-          --hidden-import=gradio.blocks ^
-          --hidden-import=gradio.events ^
-          --hidden-import=gradio.helpers ^
-          --hidden-import=gradio.utils ^
-          --hidden-import=gradio.cli ^
-          --hidden-import=websockets ^
-          --hidden-import=websockets.client ^
-          --hidden-import=websockets.server ^
-          --hidden-import=eth_account ^
-          --hidden-import=eth_account.account ^
-          --hidden-import=nacl.signing ^
-          --hidden-import=nacl.encoding ^
-          --hidden-import=httpx ^
-          --hidden-import=yaml ^
-          --hidden-import=plotly ^
-          --add-data="web_ui.py;." ^
-          web_ui.py
+    - name: Build EXE with PyInstaller
+      run: pyinstaller --name=StandXMakerBot --onedir --console --noconfirm --hidden-import=gradio --hidden-import=gradio.routes --hidden-import=gradio.templates --hidden-import=gradio.components --hidden-import=gradio.blocks --hidden-import=gradio.events --hidden-import=gradio.helpers --hidden-import=gradio.utils --hidden-import=websockets --hidden-import=websockets.client --hidden-import=websockets.server --hidden-import=eth_account --hidden-import=eth_account.account --hidden-import=nacl.signing --hidden-import=nacl.encoding --hidden-import=httpx --hidden-import=yaml --hidden-import=plotly --add-data="web_ui.py;." web_ui.py
 
     - name: Create ZIP
       run: |
